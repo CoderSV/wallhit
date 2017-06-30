@@ -5,9 +5,10 @@ if (isset($_POST['userName'])) {
     if (check_userpassword($_POST['userName'], $_POST['userPassword'])) {
         $_SESSION["loggedAs"] = $_POST['userName'];
         $_SESSION["userID"] = get_id_by_username($_SESSION["loggedAs"]);
+        $_SESSION["userRealName"] = get_user_real_name_by_user_name($_SESSION['loggedAs']);
         header("Location: feed.php?id={$_SESSION['userID']}");
     } else {
-        echo '<script>alert("Wrong password!");</script>';
+        echo '<script>alert("Неверный пароль!");</script>';
     }
 }
 if (isset($_GET['logout'])) {

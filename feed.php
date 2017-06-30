@@ -13,7 +13,6 @@ if (isset($_GET["removePosts"])) {
 }
 $userData = return_user_data($_GET['id']);
 $postdb = get_user_posts($_GET['id']);
-$loggedUserRealName = get_user_real_name_by_user_name($_SESSION['loggedAs']);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -46,7 +45,7 @@ $loggedUserRealName = get_user_real_name_by_user_name($_SESSION['loggedAs']);
         </div>
     </header>
     <div class="mdl-layout__drawer">
-        <span class="mdl-layout-title"><?php echo $loggedUserRealName;?></span>
+        <span class="mdl-layout-title"><?php echo $_SESSION['userRealName'];?></span>
         <nav class="mdl-navigation">
             <a class="mdl-navigation__link" href="feed.php?id=<?php echo $_SESSION["userID"];?>">Моя страница</a>
             <a class="mdl-navigation__link" href="search.php">Все пользователи</a>

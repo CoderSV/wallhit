@@ -31,7 +31,7 @@ if (isset($_GET['title']) && isset($_GET['content'])) {
         </div>
     </header>
     <div class="mdl-layout__drawer">
-        <span class="mdl-layout-title"><?php echo $loggedUserRealName;?></span>
+        <span class="mdl-layout-title"><?php echo $_SESSION['userRealName'];?></span>
         <nav class="mdl-navigation">
             <a class="mdl-navigation__link" href="feed.php?id=<?php echo $_SESSION["userID"];?>">Моя страница</a>
             <a class="mdl-navigation__link" href="search.php">Все пользователи</a>
