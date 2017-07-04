@@ -29,6 +29,7 @@ function get_postdb($id) {
             'content' => $line[1],
             'id' => $line[2],
             'sender' => $line[3],
+            'senderID' => $line[4],
         );
     }
     fclose($file);
@@ -98,6 +99,17 @@ function get_user_real_name_by_user_name($username) {
     return false;
 }
 
+function get_user_name_by_user_real_name($username) {
+    $userdb = get_userdb();
+    foreach ($userdb as $user) {
+        if ($user['realName'] == $username) {
+            $userName = $user['login'];
+            return $userName;
+        }
+    }
+    return false;
+}
+
 /**
  * POSTS
  */
@@ -111,6 +123,7 @@ function get_user_posts($id) {
                 'content' => $post['content'],
                 'id' => $post['id'],
                 'sender' => $post['sender'],
+                'senderID' => $post['senderID'],
             );
     }
     return $baked_post_data;
@@ -118,5 +131,9 @@ function get_user_posts($id) {
 
 function make_post($id, $title, $content, $sender) {
     $file = "./userWall/posts-{$id}.csv";
-    file_put_contents($file, $title.",".$content.",".$id.",".$sender."\r\n", FILE_APPEND);
+
+    $senderName = get_user_name_by_user_real_name($sender);
+    $senderID = get_id_by_username($senderName);
+
+    file_put_contents($file, $title.",".$content.",".$id.",".$sender.",".$senderID."\r\n", FILE_APPEND);
 }

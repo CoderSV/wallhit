@@ -89,7 +89,7 @@ $postdb = get_user_posts($_GET['id']);
                 </div>
                 <div class="mdl-card__supporting-text">
                     <?php echo $post['content'];?><br>
-                    <i>От <?php echo $post['sender'];?></i>
+                    <a href="feed.php?id=<?php echo $post['senderID'];?>"><i>От <?php echo $post["sender"];?></i></a>
                 </div>
             </div><br><br>
         <?php endforeach ?>
