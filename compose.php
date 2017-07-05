@@ -60,7 +60,7 @@ if (isset($_GET['title']) && isset($_GET['content'])) {
             <a class="mdl-navigation__link" href="auth.php?logout=1">Выйти</a>
         </nav>
     </div>
-    <main class="mdl-layout__content mdl-color--teal-500">
+    <main class="mdl-layout__content">
             <div class="mdl-card" style="margin-left: 2%; width: 95%;">
                 <div class="mdl-card__supporting-text" style="margin: auto;">
                     <form action="compose.php" method="get">
