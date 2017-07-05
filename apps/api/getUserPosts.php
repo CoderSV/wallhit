@@ -1,15 +1,12 @@
 <?php
+require "apifunc.php";
 // getUserPosts
 // getUserPosts?userID=123
 // returns all userposts;
 
-// raw result
-$result = array("error" => null);
 // error handling
 if (!isset($_GET['userID'])) {
-    $result['error'] = "empty userID";
-    $jsonresult = json_encode($result);
-    die($jsonresult);
+    printJSONError("empty userID");
 }
 // getting user info
 $file = fopen("../../userWall/posts-{$_GET['userID']}.csv", 'r');
@@ -23,10 +20,4 @@ while (($line = fgetcsv($file)) !== FALSE) {
     $number++;
 }
 fclose($file);
-$jsonresult = json_encode($result);
-die($jsonresult);
-
-// APIResult not found
-$result['error'] = "no posts found";
-$jsonresult = json_encode($result);
-die($jsonresult);
+printJSONResult($result);

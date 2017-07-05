@@ -6,13 +6,20 @@ if (isset($_POST['userName'])) {
         $_SESSION["loggedAs"] = $_POST['userName'];
         $_SESSION["userID"] = get_id_by_username($_SESSION["loggedAs"]);
         $_SESSION["userRealName"] = get_user_real_name_by_user_name($_SESSION['loggedAs']);
+        if (!isset($_SESSION['theme'])) {
+            $_SESSION['theme'] = "teal-blue";
+        }
         header("Location: feed.php?id={$_SESSION['userID']}");
     } else {
         echo '<script>alert("Неверный пароль!");</script>';
     }
 }
+if (isset($_SESSION['loggedAs'])) {
+    header("Location: index.php");
+}
 if (isset($_GET['logout'])) {
-    session_destroy();
+    unset($_SESSION['loggedAs']);
+    header("Location: index.php");
 }
 ?>
 <!DOCTYPE html>
@@ -34,29 +41,33 @@ if (isset($_GET['logout'])) {
             <!-- Add spacer, to align navigation to the right -->
             <div class="mdl-layout-spacer"></div>
             <!-- Navigation. We hide it in small screens. -->
-            <nav class="mdl-navigation mdl-layout--large-screen-only">
-                <a class="mdl-navigation__link" href="feed.php">Страница</a>
-            </nav>
         </div>
     </header>
-    <main class="mdl-layout__content">
+    <main class="mdl-layout__content mdl-color--teal-500">
         <div class="page-content">
-            <form action="auth.php" method="post">
-                <div class="mdl-textfield mdl-js-textfield">
-                    <input class="mdl-textfield__input" type="text" id="userName" name="userName">
-                    <label class="mdl-textfield__label" for="userName">Имя пользователя</label>
+            <div class="mdl-card" style="margin-left: 2%; width: 95%;">
+                <div class="mdl-card__title">
+                    <h2 class="mdl-card__title-text">Вход</h2>
                 </div>
-                <div class="mdl-textfield mdl-js-textfield">
-                    <input class="mdl-textfield__input" type="password" id="userPassword" name="userPassword">
-                    <label class="mdl-textfield__label" for="userPassword">Пароль</label>
+                <div class="mdl-card__supporting-text" style="margin: auto;">
+                    <form action="auth.php" method="post">
+                        <div class="mdl-textfield mdl-js-textfield" style="width: 100%;">
+                            <input class="mdl-textfield__input" type="text" id="userName" name="userName">
+                            <label class="mdl-textfield__label" for="userName">Имя пользователя</label>
+                        </div><br>
+                        <div class="mdl-textfield mdl-js-textfield" style="width: 100%;">
+                            <input class="mdl-textfield__input" type="password" id="userPassword" name="userPassword">
+                            <label class="mdl-textfield__label" for="userPassword">Пароль</label>
+                        </div>
+                        <br><br><br>
+                        <button style="width: 100%;" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored" type="submit">
+                            Войти
+                        </button><br>
+                        <button style="width: 100%;" class="mdl-button mdl-js-button mdl-button--colored">
+                            <a href="makeuser.php">Регистрация</a>
+                        </button>
+                    </form>
                 </div>
-                <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored" type="submit">
-                    Войти
-                </button>
-                <button class="mdl-button mdl-js-button mdl-button--flat mdl-button--colored" type="button">
-                    <A href="makeuser.php">Регистрация</A>
-                </button>
-            </form>
         </div>
     </main>
 </div>

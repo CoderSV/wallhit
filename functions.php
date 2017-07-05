@@ -1,4 +1,5 @@
 <?php
+ini_set("session.gc_probability",0);
 
 /**
  * CORE COMMANDS

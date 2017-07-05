@@ -26,29 +26,35 @@ if (isset($_POST["userName"]) && isset($_POST['userPassword'])) {
             <!-- Navigation. We hide it in small screens. -->
         </div>
     </header>
-    <main class="mdl-layout__content">
+    <main class="mdl-layout__content mdl-color--teal-500">
         <div class="page-content">
+            <div class="mdl-card" style="margin-left: 2%; width: 95%;">
+                <div class="mdl-card__title">
+                    <h2 class="mdl-card__title-text">Регистрация</h2>
+                </div>
+             <div class="mdl-card__supporting-text" style="margin: auto;">
             <form action="makeuser.php" method="post">
-                <div class="mdl-textfield mdl-js-textfield">
+                <div style="width: 100%;" class="mdl-textfield mdl-js-textfield">
                     <input class="mdl-textfield__input" type="email" id="userName" name="userName">
                     <label class="mdl-textfield__label" for="userName">Электронный адрес</label>
-                </div>
-                <div class="mdl-textfield mdl-js-textfield">
+                </div><br>
+                <div style="width: 100%;" class="mdl-textfield mdl-js-textfield">
                     <input class="mdl-textfield__input" type="password" id="userPassword" name="userPassword">
                     <label class="mdl-textfield__label" for="userPassword">Пароль</label>
-                </div>
-                <div class="mdl-textfield mdl-js-textfield">
+                </div><br>
+                <div style="width: 100%;" class="mdl-textfield mdl-js-textfield">
                     <input class="mdl-textfield__input" type="text" id="userRealName" name="userRealName">
                     <label class="mdl-textfield__label" for="userRealName">Ваше имя и фамилия</label>
-                </div>
-                <div class="mdl-textfield mdl-js-textfield">
+                </div><br>
+                <div style="width: 100%;" class="mdl-textfield mdl-js-textfield">
                     <input class="mdl-textfield__input" type="text" id="userAge" name="userAge">
                     <label class="mdl-textfield__label" for="userAge">Возраст</label>
                 </div>
-                <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored" type="submit">
+                <button style="width: 100%;" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored" type="submit">
                     Регистрация
                 </button>
             </form>
+            </div>
         </div>
     </main>
 </div>

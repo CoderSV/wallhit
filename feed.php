@@ -19,7 +19,15 @@ $postdb = get_user_posts($_GET['id']);
 <head>
     <meta charset="UTF-8">
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-    <link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.teal-pink.min.css">
+    <?php if ($_SESSION['theme'] == "teal-blue"): ?>
+    <link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.teal-blue.min.css">
+    <?php endif; ?>
+    <?php if ($_SESSION['theme'] == "blue-red"): ?>
+        <link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.blue-red.min.css">
+    <?php endif; ?>
+    <?php if ($_SESSION['theme'] == "dark"): ?>
+        <link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.blue-red.min.css">
+    <?php endif; ?>
     <script defer src="https://code.getmdl.io/1.3.0/material.min.js"></script>
     <title>Лента</title>
 </head>
@@ -27,10 +35,25 @@ $postdb = get_user_posts($_GET['id']);
 <style>
     .demo-list-icon {
         width: 300px;
+        position: absolute;
+        margin-top: -15px;
     }
 </style>
-<div class="mdl-layout mdl-js-layout mdl-layout--fixed-header mdl-color--teal-500">
-    <header class="mdl-layout__header mdl-layout__header--seamed">
+    <?php if ($_SESSION['theme'] == "teal-blue"): ?>
+    <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header mdl-color--teal-500">
+    <?php endif; ?>
+    <?php if ($_SESSION['theme'] == "blue-red"): ?>
+    <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header mdl-color--blue-500">
+    <?php endif; ?>
+    <?php if ($_SESSION['theme'] == "dark"): ?>
+    <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header mdl-color--grey-900">
+    <?php endif; ?>
+    <?php if ($_SESSION['theme'] == "dark"): ?>
+    <header class="mdl-layout__header mdl-layout__header--seamed mdl-color--grey-900">
+    <?php endif; ?>
+        <?php if (($_SESSION['theme'] == "teal-blue") or ($_SESSION['theme'] == "blue-red")): ?>
+        <header class="mdl-layout__header mdl-layout__header--seamed">
+            <?php endif; ?>
         <div class="mdl-layout__header-row">
             <!-- Title -->
             <span class="mdl-layout-title">Лента</span>
@@ -42,6 +65,12 @@ $postdb = get_user_posts($_GET['id']);
                     <a class="mdl-navigation__link" href="feed.php?id=<?php echo $_SESSION["userID"];?>&removePosts=1">Удалить все записи</a>
                 <?php endif ?>
             </nav>
+            <nav class="mdl-navigation mdl-layout--small-screen-only">
+                <a class="mdl-navigation__link" href="compose.php?from=<?php echo get_id_by_username($_SESSION["loggedAs"]);?>&to=<?php echo $userData[0]['id'];?>"><i class="material-icons">add</i></a>
+                <?php if ($_GET["id"] == $_SESSION["userID"]): ?>
+                    <a class="mdl-navigation__link" href="feed.php?id=<?php echo $_SESSION["userID"];?>&removePosts=1"><i class="material-icons">delete_forever</i></a>
+                <?php endif ?>
+            </nav>
         </div>
     </header>
     <div class="mdl-layout__drawer">
@@ -50,12 +79,12 @@ $postdb = get_user_posts($_GET['id']);
             <a class="mdl-navigation__link" href="feed.php?id=<?php echo $_SESSION["userID"];?>">Моя страница</a>
             <a class="mdl-navigation__link" href="search.php">Все пользователи</a>
             <a class="mdl-navigation__link" href="">Приложения</a>
-            <a class="mdl-navigation__link" href="">Настройки</a>
+            <a class="mdl-navigation__link" href="config.php">Настройки</a>
             <a class="mdl-navigation__link" href="auth.php?logout=1">Выйти</a>
         </nav>
     </div>
     <main class="mdl-layout__content">
-        <div class="mdl-card" style="width: 100%">
+        <div class="mdl-card" style="margin-left: 2%; width: 95%;">
             <div class="mdl-card__title">
                 <h2 class="mdl-card__title-text"><?php echo $userData[0]['realName'];?></h2>
             </div>
@@ -63,7 +92,7 @@ $postdb = get_user_posts($_GET['id']);
                 <ul class="demo-list-icon mdl-list">
                     <li class="mdl-list__item">
                        <span class="mdl-list__item-primary-content">
-                             <i class="material-icons mdl-list__item-icon">person</i>
+                             <i class="material-icons mdl-list__item-icon">email</i>
                              E-Mail: <?php echo $userData[0]['email'];?>
                         </span>
                     </li>
@@ -73,17 +102,11 @@ $postdb = get_user_posts($_GET['id']);
                             <?php echo $userData[0]['age'];?> лет
                         </span>
                     </li>
-                    <li class="mdl-list__item">
-                        <span class="mdl-list__item-primary-content">
-                            <i class="material-icons mdl-list__item-icon">person</i>
-                            ID: <?php echo $userData[0]['id'];?>
-                        </span>
-                    </li>
                 </ul>
             </div>
         </div><br><br>
         <?php foreach ($postdb as $post): ?>
-            <div class="mdl-card" style="width: 100%">
+            <div class="mdl-card" style="margin-left: 2%; width: 95%;">
                 <div class="mdl-card__title">
                     <h2 class="mdl-card__title-text"><?php echo $post['title'];?></h2>
                 </div>

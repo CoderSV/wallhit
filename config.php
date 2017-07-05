@@ -4,7 +4,10 @@ session_start();
 if (!isset($_SESSION['loggedAs'])) {
     header("Location: auth.php");
 }
-$userdb = get_userdb();
+if (isset($_GET['setTheme'])) {
+    $_SESSION['theme'] = $_GET['setTheme'];
+    header("Location: feed.php?id={$_SESSION['userID']}");
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -21,7 +24,7 @@ $userdb = get_userdb();
         <link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.blue-red.min.css">
     <?php endif; ?>
     <script defer src="https://code.getmdl.io/1.3.0/material.min.js"></script>
-    <title>Поиск</title>
+    <title>Лента</title>
 </head>
 <body>
 <?php if ($_SESSION['theme'] == "teal-blue"): ?>
@@ -41,7 +44,7 @@ $userdb = get_userdb();
                     <?php endif; ?>
         <div class="mdl-layout__header-row">
             <!-- Title -->
-            <span class="mdl-layout-title">Все пользователи</span>
+            <span class="mdl-layout-title">Настройки</span>
             <div class="mdl-layout-spacer"></div>
         </div>
     </header>
@@ -56,41 +59,28 @@ $userdb = get_userdb();
         </nav>
     </div>
     <main class="mdl-layout__content">
-        <?php foreach ($userdb as $user): ?>
         <div class="mdl-card" style="margin-left: 2%; width: 95%;">
             <div class="mdl-card__title">
-                <h2 class="mdl-card__title-text"><?php echo $user['realName'];?></h2>
+                <h2 class="mdl-card__title-text">Тема</h2>
             </div>
             <div class="mdl-card__supporting-text">
-                <ul class="demo-list-icon mdl-list">
-                    <li class="mdl-list__item">
-                       <span class="mdl-list__item-primary-content">
-                             <i class="material-icons mdl-list__item-icon">person</i>
-                             E-Mail: <?php echo $user['login'];?>
-                        </span>
-                    </li>
-                    <li class="mdl-list__item">
-                        <span class="mdl-list__item-primary-content">
-                            <i class="material-icons mdl-list__item-icon">person</i>
-                            <?php echo $user['age'];?> лет
-                        </span>
-                    </li>
-                    <li class="mdl-list__item">
-                        <span class="mdl-list__item-primary-content">
-                            <i class="material-icons mdl-list__item-icon">person</i>
-                            ID: <?php echo $user['id'];?>
-                        </span>
-                    </li>
-                </ul>
+                <form action="config.php" method="get">
+                <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="option-1">
+                    <input type="radio" id="option-1" class="mdl-radio__button" name="setTheme" value="teal-blue" checked>
+                    <span class="mdl-radio__label">Сине-зеленая</span>
+                </label><br>
+                <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="option-2">
+                    <input type="radio" id="option-2" class="mdl-radio__button" name="setTheme" value="blue-red">
+                    <span class="mdl-radio__label">Синяя</span>
+                </label><br>
+                    <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="option-3">
+                        <input type="radio" id="option-3" class="mdl-radio__button" name="setTheme" value="dark">
+                        <span class="mdl-radio__label">Темная</span>
+                    </label>
+                    <br><br><br>
+                    <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored" type="submit">
+                        Применить
+                    </button>
+                </form>
             </div>
-            <div class="mdl-card__actions mdl-card--border">
-                <a class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect" href="feed.php?id=<?php echo $user['id'];?>">
-                    Просмотреть профиль
-                </a>
-            </div>
-        </div><br><br>
-        <?php endforeach ?>
     </main>
-</div>
-</body>
-</html>
