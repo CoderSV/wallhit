@@ -66,7 +66,7 @@ $userdb = get_userdb();
                     <li class="mdl-list__item">
                        <span class="mdl-list__item-primary-content">
                              <i class="material-icons mdl-list__item-icon">person</i>
-                             E-Mail: <?php echo $user['login'];?>
+                             E-Mail: <?php echo $user['userName'];?>
                         </span>
                     </li>
                     <li class="mdl-list__item">

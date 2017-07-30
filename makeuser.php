@@ -35,19 +35,19 @@ if (isset($_POST["userName"]) && isset($_POST['userPassword'])) {
              <div class="mdl-card__supporting-text" style="margin: auto;">
             <form action="makeuser.php" method="post">
                 <div style="width: 100%;" class="mdl-textfield mdl-js-textfield">
-                    <input class="mdl-textfield__input" type="email" id="userName" name="userName">
+                    <input class="mdl-textfield__input" type="email" id="userName" name="userName" maxlength="50">
                     <label class="mdl-textfield__label" for="userName">Электронный адрес</label>
                 </div><br>
                 <div style="width: 100%;" class="mdl-textfield mdl-js-textfield">
-                    <input class="mdl-textfield__input" type="password" id="userPassword" name="userPassword">
+                    <input class="mdl-textfield__input" type="password" id="userPassword" name="userPassword" maxlength="50">
                     <label class="mdl-textfield__label" for="userPassword">Пароль</label>
                 </div><br>
                 <div style="width: 100%;" class="mdl-textfield mdl-js-textfield">
-                    <input class="mdl-textfield__input" type="text" id="userRealName" name="userRealName">
+                    <input class="mdl-textfield__input" type="text" id="userRealName" name="userRealName" maxlength="50">
                     <label class="mdl-textfield__label" for="userRealName">Ваше имя и фамилия</label>
                 </div><br>
                 <div style="width: 100%;" class="mdl-textfield mdl-js-textfield">
-                    <input class="mdl-textfield__input" type="text" id="userAge" name="userAge">
+                    <input class="mdl-textfield__input" type="text" id="userAge" name="userAge" maxlength="3">
                     <label class="mdl-textfield__label" for="userAge">Возраст</label>
                 </div>
                 <button style="width: 100%;" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored" type="submit">

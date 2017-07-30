@@ -7,7 +7,8 @@ if (!isset($_SESSION['loggedAs'])) {
 $userData = return_user_data($_GET['from']);
 $sender = $userData[0]["realName"];
 if (isset($_GET['title']) && isset($_GET['content'])) {
-    make_post($_GET["to"], $_GET['title'], $_GET['content'], $sender);
+    $from = $_GET["from"];
+    make_post($_GET["to"], $_GET['title'], $_GET['content'], $sender, $from);
     header("Location: feed.php?id={$_GET["to"]}");
 }
 ?>
