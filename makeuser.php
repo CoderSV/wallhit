@@ -1,8 +1,24 @@
 <?php
 require 'functions.php';
 if (isset($_POST["userName"]) && isset($_POST['userPassword'])) {
-    make_user($_POST['userName'], $_POST['userPassword'], $_POST['userRealName'], $_POST['userAge']);
-    header("Location: auth.php");
+    if (empty($_POST["userName"])) {
+        echo '<script>alert("Нет почты!");</script>';
+    } else {
+        if (empty($_POST["userPassword"])) {
+            echo '<script>alert("Нет пароля!");</script>';
+        } else {
+            if (empty($_POST["userRealName"])) {
+                echo '<script>alert("Нет имени!");</script>';
+            } else {
+                if (empty($_POST["userAge"])) {
+                    echo '<script>alert("Нет возраста!");</script>';
+                } else {
+                    make_user($_POST['userName'], $_POST['userPassword'], $_POST['userRealName'], $_POST['userAge']);
+                    header("Location: auth.php");
+                }
+            }
+        }
+    }
 }
 ?>
 <!DOCTYPE html>
@@ -17,18 +33,9 @@ if (isset($_POST["userName"]) && isset($_POST['userPassword'])) {
 <body>
 <!-- Always shows a header, even in smaller screens. -->
 <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
-    <header class="mdl-layout__header">
-        <div class="mdl-layout__header-row">
-            <!-- Title -->
-            <span class="mdl-layout-title">Регистрация</span>
-            <!-- Add spacer, to align navigation to the right -->
-            <div class="mdl-layout-spacer"></div>
-            <!-- Navigation. We hide it in small screens. -->
-        </div>
-    </header>
     <main class="mdl-layout__content mdl-color--teal-500">
         <div class="page-content">
-            <div class="mdl-card" style="margin-left: 2%; width: 95%;">
+            <div class="mdl-card" style="margin-left: 2%; width: 95%; margin-top: 20px;">
                 <div class="mdl-card__title">
                     <h2 class="mdl-card__title-text">Регистрация</h2>
                 </div>

@@ -8,6 +8,10 @@ if (isset($_GET['setTheme'])) {
     $_SESSION['theme'] = $_GET['setTheme'];
     header("Location: feed.php?id={$_SESSION['userID']}");
 }
+if (isset($_GET['remove'])) {
+    remove_user($_SESSION['userID']);
+    header("Location: auth.php?exit=1");
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -46,6 +50,7 @@ if (isset($_GET['setTheme'])) {
             <!-- Title -->
             <span class="mdl-layout-title">Настройки</span>
             <div class="mdl-layout-spacer"></div>
+            <a class="mdl-navigation__link" href="config.php?remove=1">Удалить профиль</a>
         </div>
     </header>
     <div class="mdl-layout__drawer">

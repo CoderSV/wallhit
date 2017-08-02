@@ -8,7 +8,7 @@ $userData = return_user_data($_GET['from']);
 $sender = $userData[0]["realName"];
 if (isset($_GET['title']) && isset($_GET['content'])) {
     $from = $_GET["from"];
-    make_post($_GET["to"], $_GET['title'], $_GET['content'], $sender, $from);
+    make_post($_GET['content'], $from, $_GET['to']);
     header("Location: feed.php?id={$_GET["to"]}");
 }
 ?>
@@ -65,10 +65,6 @@ if (isset($_GET['title']) && isset($_GET['content'])) {
             <div class="mdl-card" style="margin-left: 2%; width: 95%;">
                 <div class="mdl-card__supporting-text" style="margin: auto;">
                     <form action="compose.php" method="get">
-                        <div class="mdl-textfield mdl-js-textfield" style="width: 100%;">
-                            <input class="mdl-textfield__input" type="text" id="userRealName" name="title">
-                            <label class="mdl-textfield__label" for="userRealName">Заголовок</label>
-                        </div><br>
                         <div class="mdl-textfield mdl-js-textfield" style="width: 100%;">
                             <input class="mdl-textfield__input" type="text" id="userAge" name="content">
                             <label class="mdl-textfield__label" for="userAge">Текст</label>

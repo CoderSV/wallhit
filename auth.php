@@ -2,16 +2,24 @@
 require 'functions.php';
 session_start();
 if (isset($_POST['userName'])) {
-    if (check_userpassword($_POST['userName'], $_POST['userPassword'])) {
-        $_SESSION["loggedAs"] = $_POST['userName'];
-        $_SESSION["userID"] = get_id_by_username($_SESSION["loggedAs"]);
-        $_SESSION["userRealName"] = get_user_real_name_by_user_name($_SESSION['loggedAs']);
-        if (!isset($_SESSION['theme'])) {
-            $_SESSION['theme'] = "teal-blue";
-        }
-        header("Location: feed.php?id={$_SESSION['userID']}");
+    if (empty($_POST["userName"])) {
+        echo '<script>alert("Нет почты!");</script>';
     } else {
-        echo '<script>alert("Неверный пароль!");</script>';
+        if (empty($_POST["userPassword"])) {
+            echo '<script>alert("Нет пароля!");</script>';
+        } else {
+            if (check_userpassword($_POST['userName'], $_POST['userPassword'])) {
+                $_SESSION["loggedAs"] = $_POST['userName'];
+                $_SESSION["userID"] = get_id_by_username($_SESSION["loggedAs"]);
+                $_SESSION["userRealName"] = get_user_real_name_by_user_name($_SESSION['loggedAs']);
+                if (!isset($_SESSION['theme'])) {
+                    $_SESSION['theme'] = "teal-blue";
+                }
+                header("Location: feed.php?id={$_SESSION['userID']}");
+            } else {
+                echo '<script>alert("Неверный пароль!");</script>';
+            }
+        }
     }
 }
 if (isset($_SESSION['loggedAs'])) {
@@ -19,6 +27,10 @@ if (isset($_SESSION['loggedAs'])) {
 }
 if (isset($_GET['logout'])) {
     unset($_SESSION['loggedAs']);
+    header("Location: index.php");
+}
+if (isset($_GET['exit'])) {
+    session_unset();
     header("Location: index.php");
 }
 ?>
@@ -34,39 +46,30 @@ if (isset($_GET['logout'])) {
 <body>
 <!-- Always shows a header, even in smaller screens. -->
 <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
-    <header class="mdl-layout__header">
-        <div class="mdl-layout__header-row">
-            <!-- Title -->
-            <span class="mdl-layout-title">Вход в систему</span>
-            <!-- Add spacer, to align navigation to the right -->
-            <div class="mdl-layout-spacer"></div>
-            <!-- Navigation. We hide it in small screens. -->
-        </div>
-    </header>
     <main class="mdl-layout__content mdl-color--teal-500">
         <div class="page-content">
-            <div class="mdl-card" style="margin-left: 2%; width: 95%;">
+            <div class="mdl-card" style="margin-left: 2%; width: 95%; margin-top: 20px;">
                 <div class="mdl-card__title">
                     <h2 class="mdl-card__title-text">Вход</h2>
                 </div>
                 <div class="mdl-card__supporting-text" style="margin: auto;">
                     <form action="auth.php" method="post">
                         <div class="mdl-textfield mdl-js-textfield" style="width: 100%;">
-                            <input class="mdl-textfield__input" type="text" id="userName" name="userName">
+                            <input class="mdl-textfield__input" type="text" id="userName" name="userName" required>
                             <label class="mdl-textfield__label" for="userName">Имя пользователя</label>
                         </div><br>
                         <div class="mdl-textfield mdl-js-textfield" style="width: 100%;">
-                            <input class="mdl-textfield__input" type="password" id="userPassword" name="userPassword">
+                            <input class="mdl-textfield__input" type="password" id="userPassword" name="userPassword" required>
                             <label class="mdl-textfield__label" for="userPassword">Пароль</label>
                         </div>
                         <br><br><br>
                         <button style="width: 100%;" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored" type="submit">
                             Войти
                         </button><br>
-                        <button style="width: 100%;" class="mdl-button mdl-js-button mdl-button--colored">
-                            <a href="makeuser.php">Регистрация</a>
-                        </button>
                     </form>
+                    <button style="width: 100%;" class="mdl-button mdl-js-button mdl-button--colored">
+                        <a href="makeuser.php">Регистрация</a>
+                    </button>
                 </div>
         </div>
     </main>

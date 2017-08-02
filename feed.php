@@ -4,9 +4,9 @@ session_start();
 if (!isset($_SESSION['loggedAs'])) {
     header("Location: auth.php");
 }
-if (isset($_GET["removePosts"])) {
+if (isset($_GET["removePost"])) {
     if ($_GET["id"] == $_SESSION["userID"]) {
-        unlink("./userWall/posts-{$_GET['id']}.csv");
+        remove_post($_GET["removePost"]);
     } else {
         echo "<script>alert(\"Ошибка: данный пользователь не является владельцем удаляемой страницы.\");</script>";
     }
@@ -61,15 +61,9 @@ $postdb = get_user_posts($_GET['id']);
             <!-- Navigation. We hide it in small screens. -->
             <nav class="mdl-navigation mdl-layout--large-screen-only">
                 <a class="mdl-navigation__link" href="compose.php?from=<?php echo get_id_by_username($_SESSION["loggedAs"]);?>&to=<?php echo $userData[0]['id'];?>">Добавить запись</a>
-                <?php if ($_GET["id"] == $_SESSION["userID"]): ?>
-                    <a class="mdl-navigation__link" href="feed.php?id=<?php echo $_SESSION["userID"];?>&removePosts=1">Удалить все записи</a>
-                <?php endif ?>
             </nav>
             <nav class="mdl-navigation mdl-layout--small-screen-only">
                 <a class="mdl-navigation__link" href="compose.php?from=<?php echo get_id_by_username($_SESSION["loggedAs"]);?>&to=<?php echo $userData[0]['id'];?>"><i class="material-icons">add</i></a>
-                <?php if ($_GET["id"] == $_SESSION["userID"]): ?>
-                    <a class="mdl-navigation__link" href="feed.php?id=<?php echo $_SESSION["userID"];?>&removePosts=1"><i class="material-icons">delete_forever</i></a>
-                <?php endif ?>
             </nav>
         </div>
     </header>
@@ -106,14 +100,26 @@ $postdb = get_user_posts($_GET['id']);
             </div>
         </div><br><br>
         <?php foreach ($postdb as $post): ?>
+            <?php
+            $sendername = get_user_real_name_by_id($post['id_sender']);
+            ?>
             <div class="mdl-card" style="margin-left: 2%; width: 95%;">
                 <div class="mdl-card__title">
-                    <h2 class="mdl-card__title-text"><?php echo $post['title'];?></h2>
+                    <h2 class="mdl-card__title-text">Запись</h2>
                 </div>
                 <div class="mdl-card__supporting-text">
-                    <?php echo $post['content'];?><br>
-                    <a href="feed.php?id=<?php echo $post['senderID'];?>"><i>От <?php echo $post["sender"];?></i></a>
+                    <?php echo $post['post'];?><br>
+                    <a href="feed.php?id=<?php echo $post['id_sender'];?>"><i>От <?php echo $sendername;?></i></a>
                 </div>
+                <?php if ($_GET["id"] == $_SESSION["userID"]): ?>
+                <a href="feed.php?id=<?php echo $_SESSION["userID"];?>&removePost=<?php echo $post['id'];?>">
+                <div class="mdl-card__menu">
+                    <button class="mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect">
+                        <i class="material-icons">remove</i>
+                    </button>
+                </div>
+                </a>
+                <?php endif ?>
             </div><br><br>
         <?php endforeach ?>
     </main>

@@ -1,8 +1,8 @@
 <?php
-ini_set("session.gc_probability",0);
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
+//ini_set("session.gc_probability",0);
+//ini_set('display_errors', 1);
+//ini_set('display_startup_errors', 1);
+//error_reporting(E_ALL);
 
 /**
  * CORE COMMANDS
@@ -12,31 +12,13 @@ function get_userdb() {
     $dbh = new PDO('mysql:host=localhost;dbname=wallhitdev', "wallhit", "lxojFfu1ugLi5Ehf");
     $result = $dbh->query("SELECT * FROM users;");
     $result = $result->fetchAll();
-    foreach ($result as $user) {
-        $result[] = array(
-            'login' => $user['userName'],
-            'password' => $user['password'],
-            'realName' => $user['realName'],
-            'age' => $user['age'],
-            'id' => $user['id'],
-        );
-    }
     return $result;
 }
 
 function get_postdb($id) {
-    $file = fopen("./userWall/posts-{$id}.csv", 'a+');
-    $result = array();
-    while (($line = fgetcsv($file)) !== FALSE) {
-        $result[] = array(
-            'title' => $line[0],
-            'content' => $line[1],
-            'id' => $line[2],
-            'sender' => $line[3],
-            'senderID' => $line[4],
-        );
-    }
-    fclose($file);
+    $dbh = new PDO('mysql:host=localhost;dbname=wallhitdev', "wallhit", "lxojFfu1ugLi5Ehf");
+    $result = $dbh->query("SELECT * FROM posts WHERE id_get = {$id};");
+    $result = $result->fetchAll();
     return $result;
 }
 
@@ -63,20 +45,16 @@ function make_user($login, $password, $realname, $age) {
  */
 
 function return_user_data($id) {
-    $userdb = get_userdb();
-    $baked_user_data = array();
-    foreach ($userdb as $user) {
-        if ($user['id'] == $id) {
+    $dbh = new PDO('mysql:host=localhost;dbname=wallhitdev', "wallhit", "lxojFfu1ugLi5Ehf");
+    $result = $dbh->query("SELECT * FROM users WHERE id = '{$id}';");
+    $result = $result->fetchAll()[0];
             $baked_user_data[] = array(
-                'realName' => $user['realName'],
-                'age' => $user['age'],
-                'id' => $user['id'],
-                'email' => $user['userName'],
+                'realName' => $result['realName'],
+                'age' => $result['age'],
+                'id' => $result['id'],
+                'email' => $result['userName'],
             );
             return $baked_user_data;
-        }
-    }
-    return false;
 }
 
 function get_id_by_username($username) {
@@ -86,6 +64,17 @@ function get_id_by_username($username) {
     if ($result['userName'] == $username) {
             $userid = $result['id'];
             return $userid;
+    }
+    return false;
+}
+
+function get_user_real_name_by_id($id) {
+    $dbh = new PDO('mysql:host=localhost;dbname=wallhitdev', "wallhit", "lxojFfu1ugLi5Ehf");
+    $result = $dbh->query("SELECT * FROM users WHERE id = '{$id}';");
+    $result = $result->fetchAll()[0];
+    if ($result['id'] == $id) {
+        $userid = $result['userName'];
+        return $userid;
     }
     return false;
 }
@@ -112,29 +101,25 @@ function get_user_name_by_user_real_name($username) {
     return false;
 }
 
+function remove_user($id) {
+    $dbh = new PDO('mysql:host=localhost;dbname=wallhitdev', "wallhit", "lxojFfu1ugLi5Ehf");
+    $dbh->exec("DELETE FROM users WHERE id = {$id};");
+}
 /**
  * POSTS
  */
 
 function get_user_posts($id) {
     $postdb = get_postdb($id);
-    $baked_post_data = array();
-    foreach ($postdb as $post) {
-            $baked_post_data[] = array(
-                'title' => $post['title'],
-                'content' => $post['content'],
-                'id' => $post['id'],
-                'sender' => $post['sender'],
-                'senderID' => $post['senderID'],
-            );
-    }
-    return $baked_post_data;
+    return $postdb;
 }
 
-function make_post($id, $title, $content, $sender, $from) {
-    $file = "./userWall/posts-{$id}.csv";
+function make_post($content, $senderID, $getID) {
+    $dbh = new PDO('mysql:host=localhost;dbname=wallhitdev', "wallhit", "lxojFfu1ugLi5Ehf");
+    $dbh->exec("INSERT INTO posts VALUES (NULL, '{$senderID}', '{$getID}', '{$content}');");
+}
 
-    $senderName = get_user_name_by_user_real_name($sender);
-
-    file_put_contents($file, $title.",".$content.",".$id.",".$sender.",".$from."\r\n", FILE_APPEND);
+function remove_post($id) {
+    $dbh = new PDO('mysql:host=localhost;dbname=wallhitdev', "wallhit", "lxojFfu1ugLi5Ehf");
+    $dbh->exec("DELETE FROM posts WHERE id = {$id};");
 }
