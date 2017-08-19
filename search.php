@@ -8,122 +8,75 @@ $userdb = get_userdb();
 ?>
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-    <?php if ($_SESSION['theme'] == "teal-blue"): ?>
-        <link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.teal-blue.min.css">
-    <?php endif; ?>
-    <?php if ($_SESSION['theme'] == "blue-red"): ?>
-        <link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.blue-red.min.css">
-    <?php endif; ?>
-    <?php if (($_SESSION['theme'] == "dark") or ($_SESSION['theme'] == "black")): ?>
-        <link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.blue-red.min.css">
-    <?php endif; ?>
-    <?php if ($_SESSION['theme'] == "brown"): ?>
-        <link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.brown-deep_purple.min.css">
-    <?php endif; ?>
-    <?php if ($_SESSION['theme'] == "grey"): ?>
-        <link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.grey-blue.min.css">
-    <?php endif; ?>
-    <?php if ($_SESSION['theme'] == "white"): ?>
-        <link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.grey-blue.min.css">
-    <?php endif; ?>
-    <script defer src="https://code.getmdl.io/1.3.0/material.min.js"></script>
-    <title>Поиск</title>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <title>Пользователи</title>
+    <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no' name='viewport' />
+    <!--     Fonts and icons     -->
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700,200" rel="stylesheet" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" />
+    <!-- CSS Files -->
+    <link href="assets/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="assets/css/now-ui-kit.css" rel="stylesheet" />
+    <!-- CSS Just for demo purpose, don't include it in your project -->
+    <link href="assets/css/demo.css" rel="stylesheet" />
 </head>
-<body>
-<?php if ($_SESSION['theme'] == "teal-blue"): ?>
-<div class="mdl-layout mdl-js-layout mdl-layout--fixed-header mdl-color--teal-500">
-    <?php endif; ?>
-    <?php if ($_SESSION['theme'] == "blue-red"): ?>
-    <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header mdl-color--blue-500">
-        <?php endif; ?>
-        <?php if ($_SESSION['theme'] == "grey"): ?>
-        <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header mdl-color--grey-500">
-            <?php endif; ?>
-            <?php if ($_SESSION['theme'] == "white"): ?>
-            <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header mdl-color--white">
-                <?php endif; ?>
-                <?php if ($_SESSION['theme'] == "brown"): ?>
-                <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header mdl-color--brown-500">
-                    <?php endif; ?>
-        <?php if ($_SESSION['theme'] == "dark"): ?>
-        <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header mdl-color--grey-900">
-            <?php endif; ?>
-            <?php if ($_SESSION['theme'] == "dark"): ?>
-            <header class="mdl-layout__header mdl-layout__header--seamed mdl-color--grey-900">
-                <?php endif; ?>
-                <?php if ($_SESSION['theme'] == "black"): ?>
-                <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header" style="background: black">
-                    <?php endif; ?>
-                    <?php if ($_SESSION['theme'] == "black"): ?>
-                    <header class="mdl-layout__header mdl-layout__header--seamed" style="background: black">
-                        <?php endif; ?>
-                        <?php if ($_SESSION['theme'] == "white"): ?>
-                        <header class="mdl-layout__header mdl-layout__header--seamed" style="background: white">
-                            <?php endif; ?>
-                        <?php if (($_SESSION['theme'] == "teal-blue") or ($_SESSION['theme'] == "blue-red") or ($_SESSION['theme'] == "brown") or ($_SESSION['theme'] == "grey")): ?>
-                        <header class="mdl-layout__header mdl-layout__header--seamed">
-                            <?php endif; ?>
-        <div class="mdl-layout__header-row">
-            <!-- Title -->
-            <span class="mdl-layout-title">Все пользователи</span>
-            <div class="mdl-layout-spacer"></div>
-        </div>
-    </header>
-                        <?php if ($_SESSION['theme'] == "dark"): ?>
-                        <div class="mdl-layout__drawer mdl-color--grey-900" style="color: white;">
-                            <?php elseif ($_SESSION['theme'] == "black"): ?>
-                            <div class="mdl-layout__drawer" style="background: black; color: white;">
-                                <?php else: ?>
-                                <div class="mdl-layout__drawer">
-                                    <?php endif;?>
-        <span class="mdl-layout-title"><?php echo $_SESSION['userRealName'];?></span>
-        <nav class="mdl-navigation">
-            <a class="mdl-navigation__link" href="feed.php?id=<?php echo $_SESSION["userID"];?>">Моя страница</a>
-            <a class="mdl-navigation__link" href="search.php">Все пользователи</a>
-            <a class="mdl-navigation__link" href="apps/">Приложения</a>
-            <a class="mdl-navigation__link" href="config.php">Настройки</a>
-            <a class="mdl-navigation__link" href="auth.php?logout=1">Выйти</a>
-        </nav>
-    </div>
-    <main class="mdl-layout__content">
-        <?php foreach ($userdb as $user): ?>
-            <div class="mdl-card<?php if($_SESSION['theme'] == 'white'):?>  mdl-color--grey-200<?php endif; ?>" style="margin-left: 2%; width: 95%;">
-            <div class="mdl-card__title">
-                <h2 class="mdl-card__title-text"><?php echo $user['realName'];?></h2>
+
+<body class="login-page">
+<div class="page-header">
+    <div class="page-header-image" style="background-image:url(assets/img/login.jpg)"></div>
+    <nav class="navbar navbar-toggleable-md bg-primary fixed-top bg-info navbar-transparent" color-on-scroll="500">
+        <div class="container">
+            <div class="navbar-translate">
+                <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navigation" aria-controls="navigation-index" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-bar bar1"></span>
+                    <span class="navbar-toggler-bar bar2"></span>
+                    <span class="navbar-toggler-bar bar3"></span>
+                </button>
+                <a class="navbar-brand" style="color: white">
+                    WallHit
+                </a>
             </div>
-            <div class="mdl-card__supporting-text">
-                <ul class="demo-list-icon mdl-list">
-                    <li class="mdl-list__item">
-                       <span class="mdl-list__item-primary-content">
-                             <i class="material-icons mdl-list__item-icon">person</i>
-                             E-Mail: <?php echo $user['userName'];?>
-                        </span>
+            <div class="collapse navbar-collapse justify-content-end" id="navigation" data-nav-image="../assets/img/blurred-image-1.jpg">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" href="feed.php?id=<?php echo $_SESSION["userID"];?>">Домой</a>
                     </li>
-                    <li class="mdl-list__item">
-                        <span class="mdl-list__item-primary-content">
-                            <i class="material-icons mdl-list__item-icon">person</i>
-                            <?php echo $user['age'];?> лет
-                        </span>
+                    <li class="nav-item">
+                        <a class="nav-link" href="search.php">Пользователи</a>
                     </li>
-                    <li class="mdl-list__item">
-                        <span class="mdl-list__item-primary-content">
-                            <i class="material-icons mdl-list__item-icon">person</i>
-                            ID: <?php echo $user['id'];?>
-                        </span>
+                    <li class="nav-item">
+                        <a class="nav-link" href="auth.php?logout=1">Выйти</a>
                     </li>
                 </ul>
             </div>
-            <div class="mdl-card__actions mdl-card--border">
-                <a class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect" href="feed.php?id=<?php echo $user['id'];?>">
-                    Просмотреть профиль
-                </a>
-            </div>
-        </div><br><br>
-        <?php endforeach ?>
-    </main>
+        </div>
+    </nav>
+    <div class="container">
+        <div class="content-center">
+            <?php foreach ($userdb as $user): ?>
+                <div class="row card">
+                    <a href="feed.php?id=<?php echo $user['id'];?>"><h4 class="title text-center"><?php echo $user['realName'];?></h4></a>
+                    <h5 style="margin-left: 10px; color: black;">E-Mail: <?php echo $user['userName'];?> / <?php echo $user['age'];?> лет</h5>
+                </div>
+            <?php endforeach ?>
+        </div>
+    </div>
 </div>
 </body>
+<!--   Core JS Files   -->
+<script src="assets/js/core/jquery.3.2.1.min.js" type="text/javascript"></script>
+<script src="assets/js/core/tether.min.js" type="text/javascript"></script>
+<script src="assets/js/core/bootstrap.min.js" type="text/javascript"></script>
+<!--  Plugin for Switches, full documentation here: http://www.jque.re/plugins/version3/bootstrap.switch/ -->
+<script src="assets/js/plugins/bootstrap-switch.js"></script>
+<!--  Plugin for the Sliders, full documentation here: http://refreshless.com/nouislider/ -->
+<script src="assets/js/plugins/nouislider.min.js" type="text/javascript"></script>
+<!--  Plugin for the DatePicker, full documentation here: https://github.com/uxsolutions/bootstrap-datepicker -->
+<script src="assets/js/plugins/bootstrap-datepicker.js" type="text/javascript"></script>
+<!-- Control Center for Now Ui Kit: parallax effects, scripts for the example pages etc -->
+<script src="assets/js/now-ui-kit.js" type="text/javascript"></script>
+
 </html>

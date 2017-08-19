@@ -29,7 +29,7 @@ function get_postdb($id) {
 function check_userpassword($login, $password) {
     $dbh = new PDO('mysql:host=localhost;dbname=wallhitdev', "wallhit", "lxojFfu1ugLi5Ehf");
     $result = $dbh->query("SELECT * FROM users WHERE userName = '{$login}' AND password = '{$password}';");
-    if ($result->fetchAll()[0]["password"] == $password) {
+    if ($result->fetchAll()[0]['password'] == $password) {
         return true;
     };
     return false;
@@ -73,7 +73,7 @@ function get_user_real_name_by_id($id) {
     $result = $dbh->query("SELECT * FROM users WHERE id = '{$id}';");
     $result = $result->fetchAll()[0];
     if ($result['id'] == $id) {
-        $userid = $result['userName'];
+        $userid = $result['realName'];
         return $userid;
     }
     return false;
